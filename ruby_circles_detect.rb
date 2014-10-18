@@ -24,23 +24,30 @@ hough_window = GUI::Window.new "hough circles"
 image = IplImage::load "test2.jpg"
 gray = image.BGR2GRAY
 # gray = gray.resize(1200,800)
-gray = gray.canny(300, 5)
-hough_window.show gray
+gray = gray.canny(1100, 40)
+# hough_window.show gray
 
 # sleep 100
 #
-# detect = gray.hough_circles(CV_HOUGH_GRADIENT, 2.0, 10, 200, 10)
-# puts detect.size
+# detect = gray.hough_circles(CV_HOUGH_GRADIENT, 1, 20, 50, 30, 100)
+puts gray.rows
+
+
 # detect.each{|circle|
 #   puts "#{circle.center.x},#{circle.center.y} - #{circle.radius}"
-#   result.circle! circle.center, circle.radius, :color => CvColor::Red, :thickness => 3
+#   gray.circle! circle.center, circle.radius, :color => CvColor::Red, :thickness => 3
 # }
+
+gray.circle!(CvPoint.new(gray.width / 2, gray.height / 2), 800,
+               :color => CvColor::Blue, :thickness => 1, :line_type => :aa)
 
 # result = result.resize(aaa)
 gray = gray.resize(aaa)
 
-# hough_window.show result
+gray.circle! OpenCV::CvPoint.new(500,500), 500, color: CvColor::Red, thickness: 3
+
 hough_window.show gray
+# hough_window.show gray
 
 
 
