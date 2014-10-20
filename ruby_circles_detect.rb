@@ -21,24 +21,34 @@ aaa = CvSize.new(mp)          #=> same as CvSize(10, 20)
 original_window = GUI::Window.new("original", flags = CV_WINDOW_NORMAL)
 hough_window = GUI::Window.new "hough circles"
 
-# image = IplImage::load "test4.jpg"
 image = IplImage::load "test2.jpg"
+# image = IplImage::load "test4.jpg"
 gray = image.BGR2GRAY
-# gray = gray.resize(1200,800)
-gray = gray.canny(1100, 100)
-# hough_window.show gray
 
-# sleep 100
+#eprhaps smooth the image prior to performing edge detection?
+# gray = gray.smooth(CV_GAUSSIAN,5,5)
+# gray = gray.smooth(CV_BLUR,5,5)
+gray = gray.canny(1100, 200)
+hough_window.show gray
+
 #
 #pass through once...
 #the original image is probably too detailed so we need to filter it a bit to get our circles
-# gray = gray.smooth(CV_GAUSSIAN,3,3)
-# gray = gray.smooth(CV_BLUR,17,20)
+gray = gray.smooth(CV_GAUSSIAN,5,5)
+# gray = gray.smooth(CV_BLUR,17,17)
+
 
 # see here http://stackoverflow.com/questions/23976766/hough-circle-detection-accuracy-very-low
+# method - CV_HOUGH_GRADIENT
+# minDist - 100
+# dp - 1
+# param1 - 80
+# param2 - 10
+# minRadius - 250
+# maxRadius - 300
 # usage:
 # hough_circles(method, dp, min_dist, param1, param2, min_radius = 0, max_radius = 0)
-detect = gray.hough_circles(CV_HOUGH_GRADIENT, 1,100, 1, 80, 10)
+detect = gray.hough_circles(CV_HOUGH_GRADIENT, 1, 100, 80, 10)
 # detect = gray.hough_circles(CV_HOUGH_GRADIENT, 2, 160, 50, 30)
 puts gray.rows
 
